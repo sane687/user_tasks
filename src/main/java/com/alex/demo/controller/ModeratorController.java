@@ -1,5 +1,6 @@
 package com.alex.demo.controller;
 
+import com.alex.demo.model.Task;
 import com.alex.demo.model.User;
 import com.alex.demo.service.TaskService;
 import com.alex.demo.service.UserService;
@@ -7,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -49,6 +52,21 @@ public class ModeratorController {
     public String showTask(@PathVariable Long taskId, Model model){
         model.addAttribute("task", taskService.findTaskById(taskId));
         return "moderator/task-details";
+    }
+
+    @GetMapping("create-task")
+    public String createTask(@ModelAttribute("user") User user,
+                             @ModelAttribute("task") Task task){
+        return "moderator/create-task";
+    }
+
+    @PostMapping("create-task/new")
+    public String createTask(@Valid Task task, BindingResult result, User user){
+        if(result.hasErrors()){
+            return "admin/create-task";
+        }
+        userService.creteTask(task, user);
+        return "redirect:/moderator/user/" + user.getId();
     }
 
     @PostMapping("approve-task/{taskId}")
