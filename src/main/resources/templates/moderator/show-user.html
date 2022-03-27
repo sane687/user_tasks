@@ -19,7 +19,7 @@
             </thead>
             <tbody>
             <tr th:each="task:${inProgressAndWaitingForApproveTasks}">
-                <td th:text="${task.getTaskName()}"></td>
+                <td><a th:text="${task.getTaskName()}" th:href="@{/moderator/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
                 <td th:text="${task.getDeadline()}"></td>
                 <td th:text="${task.getStatus().toString()}"></td>
                 <td><form id="approveForm" th:action="@{/moderator/approve-task/{taskId}(taskId=${task.getId()})}" th:method="POST" th:object="${user}"></form>

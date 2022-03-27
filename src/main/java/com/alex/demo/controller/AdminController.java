@@ -40,6 +40,9 @@ public class AdminController {
     @GetMapping("/{userId}")
     public String showUser(@PathVariable Long userId, Model model){
         model.addAttribute("user", userService.findUserById(userId));
+        model.addAttribute("inProgressAndWaitingForApproveTasks", taskService.findAllInProgressAndWaitingForApproveTasks(userId));
+        model.addAttribute("completedTasks", taskService.findAllCompletedTasks(userId));
+        model.addAttribute("expiredTasks", taskService.findAllExpiredTasks(userId));
         return "admin/show-user";
     }
 
@@ -62,6 +65,12 @@ public class AdminController {
     public RedirectView deleteUser(@PathVariable Long userId){
         userService.deleteById(userId);
         return new RedirectView("/admin");
+    }
+
+    @GetMapping("show-task/{taskId}")
+    public String showTask(@PathVariable Long taskId, Model model){
+        model.addAttribute("task", taskService.findTaskById(taskId));
+        return "admin/task-details";
     }
 
     @GetMapping("create-task")

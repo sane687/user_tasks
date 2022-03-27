@@ -45,6 +45,12 @@ public class ModeratorController {
         return "moderator/show-user";
     }
 
+    @GetMapping("show-task/{taskId}")
+    public String showTask(@PathVariable Long taskId, Model model){
+        model.addAttribute("task", taskService.findTaskById(taskId));
+        return "moderator/task-details";
+    }
+
     @PostMapping("approve-task/{taskId}")
     public String approveTask(@PathVariable Long taskId, User user){
         taskService.approveTask(taskId);
