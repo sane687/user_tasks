@@ -2,6 +2,7 @@ package com.alex.demo.service;
 
 import com.alex.demo.model.EnumStatus;
 import com.alex.demo.model.Task;
+import com.alex.demo.model.User;
 import com.alex.demo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,13 @@ public class TaskService{
         return true;
     }
 
+    public boolean updateTask(Task task) {
+
+        task.setStatus(EnumStatus.IN_PROGRESS);
+        taskRepository.save(task);
+        return true;
+    }
+
     public List<Task> findAllInProgressAndWaitingForApproveTasks(Long userId){
         return taskRepository.findAllInProgressAndWaitingForApproveTasks(userId);
     }
@@ -56,4 +64,6 @@ public class TaskService{
     public List<Task> findAllExpiredTasks(Long userId){
         return taskRepository.findAllExpiredTasks(userId);
     }
+
+
 }

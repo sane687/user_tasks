@@ -60,7 +60,7 @@
         </thead>
         <tbody>
         <tr th:each="task:${completedTasks}">
-            <td th:text="${task.getTaskName()}"></td>
+            <td><a th:text="${task.getTaskName()}" th:href="@{/moderator/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
             <td th:text="${task.getDeadline()}"></td>
             <td th:text="${task.getStatus().toString()}"></td>
             <td th:text="${task.getCompleted()}"></td>
@@ -80,7 +80,7 @@
             </thead>
             <tbody>
             <tr th:each="task:${expiredTasks}">
-                <td th:text="${task.getTaskName()}"></td>
+                <td><a th:text="${task.getTaskName()}" th:href="@{/moderator/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
                 <td th:text="${task.getDeadline()}"></td>
                 <td th:text="${task.getStatus()}"></td>
             </tbody>

@@ -39,9 +39,10 @@ public class UserService{
     }
     public List<User> findAllUsers(){
         List<User> userList = userRepository.findAll();
-        userList.removeIf(user -> user.getRoles().contains(roleRepository.findByRoleName("ADMIN")));
-        userList.removeIf(user -> user.getRoles().contains(roleRepository.findByRoleName("MODERATOR")));
-        return  userRepository.findAllUsers();
+        userList.removeIf(user ->
+                user.getRoles().contains(roleRepository.findByRoleName("ADMIN"))
+                || user.getRoles().contains(roleRepository.findByRoleName("MODERATOR")));
+        return userList;
     }
 
     public boolean save(User user){
