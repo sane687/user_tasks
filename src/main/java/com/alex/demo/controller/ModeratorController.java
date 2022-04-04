@@ -94,7 +94,10 @@ public class ModeratorController {
 
         String username = userService.findUserById(userId).getUsername();
         //сообщение о бане или разбане
-        String message = userService.changeUserStatus(userId, status);
+        String message;
+
+        if (status) message = userService.banUser(userId);
+        else message = userService.unbanUser(userId);
 
         if(!message.equals("no changes")){
             redirectAttributes.addFlashAttribute("statusMessage",

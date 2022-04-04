@@ -71,39 +71,19 @@ public class UserService{
         return true;
     }
 
-    public String changeUserStatus(Long userId, boolean status){
-        User user = userRepository.findUserById(userId);
-        if (user.getRoles().contains("ADMIN") || user.getRoles().contains("MODERATOR")){
-            return "no changes";
-        }
-        if(user.isLocked()!=status){
-            user.setLocked(status);
-            if (user.isLocked()){
-                return "banned";
-            }
-            return "unbanned";
-        }
-        return "no changes";
-    }
-
-//    public String banUser(Long userId){
+//    public String changeUserStatus(Long userId, boolean status){
 //        User user = userRepository.findUserById(userId);
-//        if (user.isLocked()){
+//        if (user.getRoles().contains("ADMIN") || user.getRoles().contains("MODERATOR")){
 //            return "no changes";
 //        }
-//        user.setLocked(true);
-//        userRepository.save(user);
-//        return "banned";
-//    }
-//
-//    public String unbanUser(Long userId){
-//        User user = userRepository.findUserById(userId);
-//        if (!user.isLocked()){
-//            return "no changes";
+//        if(user.isLocked()!=status){
+//            user.setLocked(status);
+//            if (user.isLocked()){
+//                return "banned";
+//            }
+//            return "unbanned";
 //        }
-//        user.setLocked(false);
-//        userRepository.save(user);
-//        return "unbanned";
+//        return "no changes";
 //    }
 
     public User findUserById(Long id){
@@ -112,5 +92,27 @@ public class UserService{
     public void deleteById(Long id){
         userRepository.deleteById(id);
     }
+
+
+    public String banUser(Long userId) {
+        User user = userRepository.findUserById(userId);
+        if (user.isLocked()){
+            return "no changes";
+        }
+        user.setLocked(true);
+        userRepository.save(user);
+        return "banned";
+    }
+
+    public String unbanUser(Long userId) {
+        User user = userRepository.findUserById(userId);
+        if (!user.isLocked()){
+            return "no changes";
+        }
+        user.setLocked(false);
+        userRepository.save(user);
+        return "unbanned";
+    }
+
 
 }
